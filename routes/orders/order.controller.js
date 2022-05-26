@@ -9,6 +9,7 @@ const {
 
 async function addOrderController(req, res){
     const order = req.body;
+    delete req.body._id;
     const result = await addOrder(order);
     res.json(result);
 }

@@ -18,9 +18,11 @@ async function addOrder(order){
             }
         }
 
-        order.status = 'pending';
-        await orderModel.create(order);
-        return "Created new order successfully";
+        const createdOrder = await orderModel.create(order);
+        return {
+            "message": "Order created successfully",
+            "order": createdOrder,
+        };
     } catch(err){
         console.log(err);
         return "Error occur while adding order";

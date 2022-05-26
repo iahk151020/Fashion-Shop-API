@@ -19,6 +19,7 @@ async function checkLongIn(username, password){
         }    
     
     console.log("id:" + user._id);
+    console.log("fullname" + user.fullName);
 
     return {
         message: 'ok',
