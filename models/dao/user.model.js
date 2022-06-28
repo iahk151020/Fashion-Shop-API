@@ -1,4 +1,6 @@
 const User = require('../schema/user.mongo');
+const bcrypt = require('bcrypt');
+const saltRound = 10;
 
 async function checkLongIn(username, password){
 
@@ -12,7 +14,9 @@ async function checkLongIn(username, password){
             user: null
         }
     
-    if (user.password != password)
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match)
         return {
             message: 'Wrong password',
             user: null
@@ -38,6 +42,9 @@ async function signUp(user){
         if (existEmail != null){
             return "this email's already used";
         }
+     
+        const hash = await bcrypt.hash(user.password, saltRound);
+        user.password = hash;
 
         await User.create(user);
         return "sign up successfully";
